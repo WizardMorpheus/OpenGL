@@ -1,2 +1,3 @@
-﻿  OpenGL.cpp
+﻿  glad.c
+  OpenGL.cpp
   OpenGL.vcxproj -> E:\Visual_Studio\Projects\OpenGL\bin\x64\Debug\OpenGL.exe
