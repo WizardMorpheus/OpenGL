@@ -155,8 +155,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Headers\EBO.cpp" />
+    <ClCompile Include="Headers\ShaderClass.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\OpenGL.cpp" />
+    <ClCompile Include="Headers\VBO.cpp" />
+    <ClCompile Include="Headers\VAO.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\default.frag" />
+    <None Include="Resources\default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\EBO.h" />
+    <ClInclude Include="Headers\ShaderClass.h" />
+    <ClInclude Include="Headers\VBO.h" />
+    <ClInclude Include="Headers\VAO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
