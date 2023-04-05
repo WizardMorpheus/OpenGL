@@ -12,15 +12,18 @@ VBO::VBO(GLfloat* vertices, GLsizeiptr size)
 
 void VBO::Bind()
 {
+	//	binds the Vertex buffer
 	glBindBuffer(GL_ARRAY_BUFFER, ID);
 }
 
 void VBO::UnBind()
 {
+	//	unbinds the vertex buffer so that we dontt accidentally change it.
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void VBO::Delete()
 {
+	//	deletes the vertex buffer from memory.
 	glDeleteBuffers(1, &ID);
 }

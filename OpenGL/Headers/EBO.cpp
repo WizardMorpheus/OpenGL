@@ -12,15 +12,18 @@ EBO::EBO(GLuint* indeces, GLsizeiptr size)
 
 void EBO::Bind()
 {
+	//	binds the buffer 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
 }
 
 void EBO::UnBind()
 {
+	//	unbinds the buffer so that we dont accidentally change it
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void EBO::Delete()
 {
+	//	deletes the buffer from memory
 	glDeleteBuffers(1, &ID);
 }

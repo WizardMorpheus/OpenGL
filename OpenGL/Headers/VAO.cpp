@@ -26,10 +26,12 @@ void VAO::Bind()
 
 void VAO::UnBind()
 {
+	//	unbinds the vertex array so that we dont accidentally change it
 	glBindVertexArray(0);
 }
 
 void VAO::Delete()
 {
+	//	deletes the vertex array from memory
 	glDeleteVertexArrays(1, &ID);
 }

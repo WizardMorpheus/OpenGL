@@ -66,16 +66,21 @@ int main()
 		3,4,2 // top triangle
 	};
 
-	////////////////////////////////////////////////////////////////////
+	//	creates a shder program using the vertex and fragment shaders located in the given files.
 	Shader shader_program(".\\Resources\\default.vert", ".\\Resources\\default.frag");
 
+	// creates a VAO and binds it.
 	VAO VAO1;
 	VAO1.Bind();
 
+	//	creates a VBO based off of the vertices array
 	VBO VBO1(vertices, sizeof(vertices));
+	//	creates an EBO based off of the indeces array
 	EBO EBO1(indeces, sizeof(indeces));
 
+	//	links the VAO to the VBO
 	VAO1.LinkVBO(VBO1, 0);
+	//	unbinds all three so that we dont accidentally change them later.
 	VAO1.UnBind();
 	VBO1.UnBind();
 	EBO1.UnBind();
@@ -92,14 +97,19 @@ int main()
 		//	clears the back buffer with the colour buffer bit we just set
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		//	uses the shader program
 		shader_program.Activate();
+		//	binds the VAO
 		VAO1.Bind();
+		//	draws the elements in the VAO
 		glDrawElements(GL_TRIANGLES,9 ,GL_UNSIGNED_INT, 0);
+		//	swaps the buffers so that the resulting image is displayed.
 		glfwSwapBuffers(window);
 
 	}
 
 
+	//	deletes the VAO, VBO, EBO and shader program so as  to not leak memory
 	VAO1.Delete();
 	VBO1.Delete();
 	EBO1.Delete();
