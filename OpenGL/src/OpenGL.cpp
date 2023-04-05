@@ -7,8 +7,6 @@
 #include "../Headers/VBO.h"
 #include "../Headers/EBO.h"
 
- 
-
 #define WINDOW_WIDTH	800
 #define WINDOW_HEIGHT	600
 #define WINDOW_NAME		"yeeeees"
@@ -69,7 +67,7 @@ int main()
 	};
 
 	////////////////////////////////////////////////////////////////////
-	Shader shader_program("../Resources/default.vert", "../Resources/default.frag");
+	Shader shader_program(".\\Resources\\default.vert", ".\\Resources\\default.frag");
 
 	VAO VAO1;
 	VAO1.Bind();
