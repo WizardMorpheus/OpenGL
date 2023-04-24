@@ -23,6 +23,35 @@ std::string get_file_contents(const char* filename)
 	throw errno;
 }
 
+std::string get_shader_compile_errors(GLuint shader)
+{
+	int result;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+	if (result == GL_FALSE)
+	{
+		int length;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+		char* message = (char*)alloca(length * sizeof(char));
+		glGetShaderInfoLog(shader, length, &length, message);
+
+		int type;
+		std::string type_s;
+		glGetShaderiv(shader, GL_SHADER_TYPE, &type);
+		switch(type)
+		{
+			case (GL_VERTEX_SHADER):	type_s = "Vertex";		break;
+			case (GL_GEOMETRY_SHADER):	type_s = "Geometry";	break;
+			case (GL_FRAGMENT_SHADER):	type_s = "Fragment";	break;
+		}
+
+		std::string ret = "Failed to Compile " + type_s + " Shader!\n" + message + "\n";
+		
+		glDeleteShader(shader);
+		return ret;
+	}
+	return "";
+}
+
 Shader::Shader(const char* vertexfile, const char* fragmentfile)
 {
 	//	string variables for the shader code
@@ -33,17 +62,22 @@ Shader::Shader(const char* vertexfile, const char* fragmentfile)
 	const char* vertex_src = vertex_code.c_str();
 	const char* fragment_src = fragment_code.c_str();
 
+
 	//	creates a GL vertex shader 
 	GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	//	Sets the source code for that shader to be the vertex shader source code above.
 	glShaderSource(vertex_shader, 1, &vertex_src, NULL);
 	//	The shader is currently not being compiled (because it is just a char* ATM, so we compile it now.
 	glCompileShader(vertex_shader);
+	std::cout << get_shader_compile_errors(vertex_shader);
+
 
 	//	Same process as above but now for the fragment shader.
-	GLuint fragment_shader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment_shader, 1, &fragment_src, NULL);
 	glCompileShader(fragment_shader);
+	std::cout << get_shader_compile_errors(vertex_shader);
+
 
 	//	creates a shader program for GL to use
 	ID = glCreateProgram();
@@ -52,8 +86,11 @@ Shader::Shader(const char* vertexfile, const char* fragmentfile)
 	//	pixels that are being shaded and then use the fragment shader to colour them
 	glAttachShader(ID, vertex_shader);
 	glAttachShader(ID, fragment_shader);
+
 	//	links the shader program to GL
 	glLinkProgram(ID);
+	glValidateProgram(ID);
+
 
 	//	deletes the shaders, they are now a part of the shader program and so we dont need them directly.
 	glDeleteShader(vertex_shader);

@@ -6,14 +6,14 @@ VAO::VAO()
 	glGenVertexArrays(1, &ID);
 }
 
-void VAO::LinkVBO(VBO vbo, GLuint layout)
+void VAO::LinkAttrib(VBO vbo, GLuint layout, GLuint num_components, GLuint type, GLsizeiptr stride, void* offset)
 {
 	vbo.Bind();
 	//	configures the VAO that we just bound so that it knows how to read the VBO
 	//	Args are:	position of vertex attrib, num_vertices, type of value,
 	//				only relevant if the type is and int (otherwise set to false),
 	//				amount of data between each vertex, offset of where vertices begin in the array
-	glVertexAttribPointer(layout, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(layout, num_components, type, GL_FALSE, stride, offset);
 	glEnableVertexAttribArray(layout);
 	vbo.UnBind();
 }
