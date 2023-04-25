@@ -1,19 +1,33 @@
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #include"Texture.h"
+
+
+
 
 Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType)
 {
 	// Assigns the type of the texture ot the texture object
 	type = texType;
 
+
+	char fileLoc[100];
+	strcpy_s(fileLoc, fs::current_path().string().c_str());
+	strcat_s(fileLoc, "\\src\\");
+	strcat_s(fileLoc, image);
+
+
 	// Stores the width, height, and the number of color channels of the image
 	int widthImg, heightImg, numColCh;
 	// Flips the image so it appears right side up
 	stbi_set_flip_vertically_on_load(true);
 	// Reads the image from a file and stores it in bytes
-	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 4);
+	unsigned char* bytes = stbi_load(fileLoc, &widthImg, &heightImg, &numColCh, 4);
+
 	if (bytes == NULL)
 	{
-		std::cout << "Failed to load image: " << stbi_failure_reason() << std::endl;
+		std::cout << "Failed to load Texture: " << stbi_failure_reason() << std::endl;
 		return;
 	}
 

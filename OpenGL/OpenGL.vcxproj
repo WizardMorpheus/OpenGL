@@ -85,8 +85,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
@@ -128,8 +128,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SRCDIR="$(ProjectDir)src";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,6 +175,7 @@
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\VBO.h" />
     <ClInclude Include="Headers\VAO.h" />
+    <ClInclude Include="libraries\include\stb\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

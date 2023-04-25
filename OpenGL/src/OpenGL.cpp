@@ -66,12 +66,6 @@ int main()
 	//	hints to glad that it should render within the bounds of 0,0,width,height (bottom_left, top_right)
 	glad_glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	////	sets the clear colout of glad to be a navy blue
-	//glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-	////	clears the back buffer with the colour buffer bit we just set
-	//glClear(GL_COLOR_BUFFER_BIT);
-	////	swaps the buffers to dislay the screen.
-	//glfwSwapBuffers(window);
 
 	//	creates a shder program using the vertex and fragment shaders located in the given files.
 	Shader shader_program(".\\Resources\\shaders\\default.vert", ".\\Resources\\shaders\\default.frag");
@@ -99,7 +93,7 @@ int main()
 
 
 	// Texture
-	Texture popCat("E:\\Programming\\Visual_Studio\\Projects\\OpenGL\\OpenGL\\Resources\\textures\\brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture popCat("..\\Resources\\textures\\brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	popCat.texUnit(shader_program, "tex0", 0);
 
 
@@ -138,7 +132,6 @@ int main()
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(1.0f, 0.0f, 0.0f));
 
 		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
 		proj = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
