@@ -1,7 +1,11 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "../../libraries/include/stb/stb_image.h"
+#include <stb/stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 #include "../Headers/ShaderClass.h"
 #include "../Headers/VAO.h"
@@ -10,23 +14,28 @@
 #include "../Headers/Texture.h"
 
 #define WINDOW_WIDTH	800
-#define WINDOW_HEIGHT	600
+#define WINDOW_HEIGHT	800
 #define WINDOW_NAME		"yeeeees"
 
 // Vertices coordinates
 GLfloat vertices[] =
-{ //   COORDINATES       /     COLORS         //
-	-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f, // Lower left corner
-	-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 1.0f, // upper left corner
-	 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f, // upper right
-	 0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 0.0f  // lower right
+{ //   COORDINATES         /         COLORS             /    TexCoord
+	-0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,
+	-0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,
+	 0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,
+	 0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,
+	 0.0f,  0.8f,  0.0f,		0.92f, 0.86f, 0.76f,		2.5f, 5.0f
 };
 
 // Indices for vertices order
 GLuint indeces[] =
 {
-	0,2,1,
-	0,3,2
+	0,1,2,
+	0,2,3,
+	0,1,4,
+	1,2,4,
+	2,3,4,
+	3,0,4
 };
 
 int main()
@@ -87,43 +96,17 @@ int main()
 	EBO1.UnBind();
 
 
-	//get the locations of uniforms
-	GLuint uni_scale = glGetUniformLocation(shader_program.ID, "scale");
-
-
-
-	//texture
-
-	/*int widthImg, heightImg, numColCh;
-	unsigned char* bytes = stbi_load("../Resources/Textures/pop_cat.png", &widthImg, &heightImg, &numColCh, 0);
-
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(bytes);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	GLuint uni_tex0 = glGetUniformLocation(shader_program.ID, "tex0");
-	shader_program.Activate();
-	glUniform1i(uni_tex0, 0);*/
 
 
 	// Texture
-	Texture popCat("E:\\Programming\\Visual_Studio\\Projects\\OpenGL\\OpenGL\\Resources\\textures\\pop_cat.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture popCat("E:\\Programming\\Visual_Studio\\Projects\\OpenGL\\OpenGL\\Resources\\textures\\brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	popCat.texUnit(shader_program, "tex0", 0);
 
 
+	float rotation = 0.0f;
+	double prevTime = glfwGetTime();
+	
+	glEnable(GL_DEPTH_TEST);
 
 	//	while true loop for the window.
 	while (!glfwWindowShouldClose(window))
@@ -134,17 +117,52 @@ int main()
 		//	sets the clear colout of glad to be a navy blue
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		//	clears the back buffer with the colour buffer bit we just set
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		
 
 		//	uses the shader program
 		shader_program.Activate();
 
+
+		double crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60)
+		{
+			rotation += 1.5f;
+			prevTime = crntTime;
+			if (rotation > 360.0f) rotation = rotation - 360.0f;
+		}
+
+
+		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 proj = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotation), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
+		proj = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
+
+
+		//get the locations of uniforms
+		GLuint uni_scale = glGetUniformLocation(shader_program.ID, "scale");
+
+		int uni_model = glGetUniformLocation(shader_program.ID, "model");
+		int uni_view  = glGetUniformLocation(shader_program.ID, "view");
+		int uni_proj  = glGetUniformLocation(shader_program.ID, "proj");
+
+
 		//set the the uniforms
 		glUniform1f(uni_scale, 1.5f);
-		popCat.Bind();
+		glUniformMatrix4fv(uni_model, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(uni_view, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(uni_proj, 1, GL_FALSE, glm::value_ptr(proj));
 
+
+
+
+
+		popCat.Bind();
 
 
 		//	binds the VAO
