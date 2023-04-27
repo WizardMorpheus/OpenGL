@@ -73,26 +73,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\include</IncludePath>
+    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\include</IncludePath>
+    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\include;$(IncludePath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\include</IncludePath>
+    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\OpenGL\libraries\lib;$(LibraryPath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\include;$(IncludePath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\include</IncludePath>
+    <LibraryPath>E:\Programming\Visual_Studio\Projects\OpenGL\libraries\lib;$(LibraryPath);E:\Programming\C++\Projects\OpenGL\OpenGL\libraries\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Headers\Camera.cpp" />
     <ClCompile Include="Headers\EBO.cpp" />
     <ClCompile Include="Headers\ShaderClass.cpp" />
     <ClCompile Include="Headers\Texture.cpp" />
@@ -170,6 +171,7 @@
     <None Include="Resources\shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Camera.h" />
     <ClInclude Include="Headers\EBO.h" />
     <ClInclude Include="Headers\ShaderClass.h" />
     <ClInclude Include="Headers\Texture.h" />

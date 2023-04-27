@@ -1,2 +1,4 @@
-﻿  Texture.cpp
-  OpenGL.vcxproj -> E:\Programming\Visual_Studio\Projects\OpenGL\bin\x64\Debug\OpenGL.exe
+﻿  Camera.cpp
+  OpenGL.cpp
+  Generating Code...
+  OpenGL.vcxproj -> E:\Programming\C++\Projects\OpenGL\bin\x64\Debug\OpenGL.exe

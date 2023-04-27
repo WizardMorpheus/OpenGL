@@ -12,6 +12,7 @@
 #include "../Headers/VBO.h"
 #include "../Headers/EBO.h"
 #include "../Headers/Texture.h"
+#include "../Headers/Camera.h"
 
 #define WINDOW_WIDTH	800
 #define WINDOW_HEIGHT	800
@@ -101,6 +102,8 @@ int main()
 	double prevTime = glfwGetTime();
 	
 	glEnable(GL_DEPTH_TEST);
+	
+	Camera camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.0f, 0.0f, 2.0f));
 
 	//	while true loop for the window.
 	while (!glfwWindowShouldClose(window))
@@ -118,41 +121,8 @@ int main()
 		//	uses the shader program
 		shader_program.Activate();
 
-
-		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60)
-		{
-			rotation += 1.5f;
-			prevTime = crntTime;
-			if (rotation > 360.0f) rotation = rotation - 360.0f;
-		}
-
-
-		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 proj = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-		proj = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
-
-
-		//get the locations of uniforms
-		GLuint uni_scale = glGetUniformLocation(shader_program.ID, "scale");
-
-		int uni_model = glGetUniformLocation(shader_program.ID, "model");
-		int uni_view  = glGetUniformLocation(shader_program.ID, "view");
-		int uni_proj  = glGetUniformLocation(shader_program.ID, "proj");
-
-
-		//set the the uniforms
-		glUniform1f(uni_scale, 1.5f);
-		glUniformMatrix4fv(uni_model, 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(uni_view, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(uni_proj, 1, GL_FALSE, glm::value_ptr(proj));
-
-
-
+		camera.Inputs(window);
+		camera.Matrix(45.0f, 0.1f, 100.0f, shader_program, "camMat");
 
 
 		popCat.Bind();
