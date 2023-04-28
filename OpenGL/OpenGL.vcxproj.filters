@@ -46,6 +46,8 @@
   <ItemGroup>
     <None Include="Resources\shaders\default.frag" />
     <None Include="Resources\shaders\default.vert" />
+    <None Include="Resources\shaders\light.frag" />
+    <None Include="Resources\shaders\light.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\ShaderClass.h">

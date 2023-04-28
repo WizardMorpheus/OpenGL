@@ -8,7 +8,7 @@ Camera::Camera(int width, int height, glm::vec3 position)
 
 }
 
-void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform)
+void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 {
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 proj = glm::mat4(1.0f);
@@ -16,7 +16,12 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shade
 	view = glm::lookAt(Position, Position + Orientation, Up);
 	proj = glm::perspective(glm::radians(FOVdeg), (float)(Width / Height), nearPlane, farPlane);
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(proj * view));
+	camMat = proj * view;
+}
+
+void Camera::Matrix(Shader& shader, const char* uniform)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(camMat));
 }
 
 void Camera::Inputs(GLFWwindow* window)
@@ -53,8 +58,8 @@ void Camera::Inputs(GLFWwindow* window)
 	{
 		Speed = 0.0005f;
 	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-	{
+	/*if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	{*/
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 		if (firstClick)
@@ -80,11 +85,11 @@ void Camera::Inputs(GLFWwindow* window)
 
 		glfwSetCursorPos(window, Width / 2, Height / 2);
 
-	}
+	/*}
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 	{
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		firstClick = true;
-	}
+	}*/
 
 }
