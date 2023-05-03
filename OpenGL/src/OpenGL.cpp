@@ -20,44 +20,18 @@
 
 // Vertices coordinates
 GLfloat vertices[] =
-{ //   COORDINATES         /         COLORS             /    TexCoord     /       Normal
-	 // Front
-	 0.0f,  0.8f,  0.0f,		0.92f, 0.86f, 0.76f,		2.5f, 5.0f,		 0.0f,  0.5f, -0.8f,
-	-0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
-	 0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
-
-	// Right
-	 0.0f,  0.8f,  0.0f,		0.92f, 0.86f, 0.76f,		2.5f, 5.0f,		 0.8f,  0.5f,  0.0f,
-	 0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
-	 0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
-
-	// Back
-	 0.0f,  0.8f,  0.0f,		0.92f, 0.86f, 0.76f,		2.5f, 5.0f,		 0.0f,  0.5f,  0.8f,
-	 0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
-	-0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
-
-	// Left
-	 0.0f,  0.8f,  0.0f,		0.92f, 0.86f, 0.76f,		2.5f, 5.0f,		-0.8f,  0.5f,  0.0f,
-	-0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
-	-0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
-
-	// Floor
-	-0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
-	 0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
-	 0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
-	-0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
-
+{ //   COORDINATES         /         COLORS       /    TexCoord     /       Normal
+	-1.0f, 0.0f, -1.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+	 1.0f, 0.0f, -1.0f,		0.0f, 1.0f, 0.0f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+	 1.0f, 0.0f,  1.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,		0.0f, 1.0f, 0.0f,
+	-1.0f, 0.0f,  1.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f
 };
 
 // Indices for vertices order
 GLuint indeces[] =
 {
-	 0, 1, 2,
-	 3, 4, 5,
-	 6, 7, 8,
-	 9,10,11,
-	12,13,14,
-	12,14,15
+	0,1,2,
+	0,2,3
 };
 
 
@@ -181,10 +155,11 @@ int main()
 
 
 
-	
 	// Texture
-	Texture popCat("..\\Resources\\textures\\brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	popCat.texUnit(shader_program, "tex0", 0);
+	Texture planksTex("..\\Resources\\textures\\planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+	planksTex.texUnit(shader_program, "tex0", 0);
+	Texture planksSpec("..\\Resources\\textures\\planksSpec.png", GL_TEXTURE_2D, 1, GL_RGBA, GL_UNSIGNED_BYTE);
+	planksSpec.texUnit(shader_program, "tex1", 1);
 
 
 	float rotation = 0.0f;
@@ -213,7 +188,8 @@ int main()
 		camera.Matrix(shader_program, "camMat");
 
 
-		popCat.Bind();
+		planksTex.Bind();
+		planksSpec.Bind();
 
 
 		//	binds the VAO
@@ -240,7 +216,7 @@ int main()
 	VBO1.Delete();
 	EBO1.Delete();
 	shader_program.Delete();
-	popCat.Delete();
+	planksTex.Delete();
 	//	destroys the window and teminate GLFW before quit
 	glfwDestroyWindow(window);
 	glfwTerminate();
